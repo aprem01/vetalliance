@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Target, Building2, Users, Handshake, KanbanSquare, Send,
   ShieldCheck, FileText, BarChart3, Map, GraduationCap, MessageSquare, Menu, X,
+  TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ const NAV: { section: string; items: { href: string; label: string; icon: React.
       { href: "/terminal/opportunities", label: "Opportunities", icon: Target },
       { href: "/terminal/agencies", label: "Agencies", icon: Building2 },
       { href: "/terminal/incumbents", label: "Incumbents", icon: Users },
+      { href: "/terminal/predictions", label: "Predictions", icon: TrendingUp },
     ],
   },
   {

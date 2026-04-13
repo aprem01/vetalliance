@@ -3,15 +3,17 @@ import {
   fetchAwardYearTotals,
   fetchRecentSDVOSBAwards,
 } from "@/lib/external/usaspending";
+import { computeLeakageReport } from "@/lib/analytics/leakage";
 import { AnalyticsClient, type AnalyticsData } from "./analytics-client";
 
 export const revalidate = 3600;
 
 export default async function AnalyticsPage() {
-  const [mandate, totals, awardsResp] = await Promise.all([
+  const [mandate, totals, awardsResp, leakage] = await Promise.all([
     fetchAgencyMandateRows(10),
     fetchAwardYearTotals(),
     fetchRecentSDVOSBAwards(100),
+    computeLeakageReport(),
   ]);
 
   const mandateData = mandate.rows.slice(0, 10).map((r) => ({
@@ -44,6 +46,7 @@ export default async function AnalyticsPage() {
     ytdFy: totals.ytdFy,
     priorFy: totals.priorFy,
     mocked: mandate.mocked || totals.mocked || awardsResp.mocked,
+    leakage,
   };
 
   return <AnalyticsClient data={data} />;
