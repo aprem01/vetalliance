@@ -30,6 +30,12 @@ App runs at http://localhost:3000.
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Auth skipped, app uses seed data |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon public key | Auth skipped |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-side admin (future jobs) | Not yet used |
+| `SAM_GOV_API_KEY` | SAM.gov Opportunities API (live feed for `/terminal/opportunities`) | Falls back to seed opportunities, flagged as demo data |
+
+## External data sources
+
+- **USASpending.gov** (no key required) — drives `/terminal/agencies`, `/terminal/incumbents`, and the Market Intelligence block on `/analytics`. Client in `lib/external/usaspending.ts`, cached 1h. Falls back to seed on any error.
+- **SAM.gov Opportunities** (public key required) — drives `/terminal/opportunities`. Client in `lib/external/sam.ts`, cached 30m. Register for a key at https://sam.gov/content/api. Falls back to seed opportunities if `SAM_GOV_API_KEY` is unset.
 
 ## Supabase setup (optional)
 
