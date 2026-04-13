@@ -10,7 +10,8 @@ import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Sparkles, Loader2, Handshake, ShieldCheck, BadgeCheck } from "lucide-react";
+import { Sparkles, Loader2, Handshake, ShieldCheck, BadgeCheck, SearchX } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import { formatCurrency } from "@/lib/utils";
 import type { VerifiedEntity } from "@/lib/types";
 
@@ -123,6 +124,25 @@ export default function PartnersPage() {
               </Select>
             </div>
           </div>
+          {filtered.length === 0 && (
+            <EmptyState
+              icon={SearchX}
+              title="No partners match"
+              description="Try clearing the state filter or rewording the search."
+              action={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setQ("");
+                    setState("all");
+                  }}
+                >
+                  Reset filters
+                </Button>
+              }
+            />
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {filtered.map((c) => (
               <Card key={c.id}>

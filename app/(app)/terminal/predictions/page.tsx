@@ -7,6 +7,7 @@ import {
   type AgencyPrediction,
 } from "@/lib/analytics/predictions";
 import { hasAnthropic } from "@/lib/anthropic";
+import { AlertTriangle } from "lucide-react";
 
 export const revalidate = 3600;
 
@@ -51,6 +52,18 @@ export default async function PredictionsPage() {
           )}
         </p>
       </div>
+
+      {mocked && (
+        <div className="flex items-start gap-3 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+          <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0 text-amber-300" />
+          <div>
+            <div className="font-semibold">USASpending data temporarily unavailable</div>
+            <div className="text-xs text-amber-200/80 mt-0.5">
+              Showing seed estimates modeled from prior FY distribution. Forecasts will refresh once the upstream API responds.
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {enriched.map((p) => (

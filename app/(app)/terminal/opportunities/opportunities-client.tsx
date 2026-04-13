@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
+import { SearchX } from "lucide-react";
 
 export function OpportunitiesClient({
   opportunities,
@@ -127,9 +130,26 @@ export function OpportunitiesClient({
           <OpportunityCard key={opp.id} opp={opp} />
         ))}
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">
-            No opportunities match these filters.
-          </div>
+          <EmptyState
+            icon={SearchX}
+            title="No opportunities match your filters"
+            description="Try widening the score threshold, switching the set-aside, or clearing the search."
+            action={
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setQuery("");
+                  setAgency("all");
+                  setSetAside("all");
+                  setMinScore(0);
+                  setSort("score");
+                }}
+              >
+                Clear filters
+              </Button>
+            }
+          />
         )}
       </div>
     </div>

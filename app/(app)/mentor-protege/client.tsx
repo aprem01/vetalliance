@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Sparkles, Loader2, UserCheck, ExternalLink } from "lucide-react";
+import { Sparkles, Loader2, UserCheck, ExternalLink, SearchX, Users, Handshake, BookOpen } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import type { MentorProfile, ProtegeProfile, MentorProtegePair } from "@/lib/types";
 
 function capacityBadge(level: MentorProfile["capacityLevel"]) {
@@ -168,8 +169,28 @@ export function MentorProtegeClient({
                 </CardContent>
               </Card>
             ))}
-            {filteredMentors.length === 0 && <div className="text-sm text-muted-foreground">No mentors match current filters.</div>}
           </div>
+          {filteredMentors.length === 0 && (
+            <EmptyState
+              icon={SearchX}
+              title="No mentors match your filters"
+              description="Broaden the NAICS, program, or capacity filter to surface available mentors."
+              action={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setMentorQ("");
+                    setMentorNaics("all");
+                    setMentorProgram("all");
+                    setMentorCapacity("all");
+                  }}
+                >
+                  Reset filters
+                </Button>
+              }
+            />
+          )}
         </TabsContent>
 
         <TabsContent value="proteges">
@@ -187,6 +208,27 @@ export function MentorProtegeClient({
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {filteredProteges.length === 0 && (
+              <div className="md:col-span-2">
+                <EmptyState
+                  icon={Users}
+                  title="No protégés match"
+                  description="No veteran-owned firms match the current certification or search."
+                  action={
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setProtQ("");
+                        setProtCert("all");
+                      }}
+                    >
+                      Reset filters
+                    </Button>
+                  }
+                />
+              </div>
+            )}
             {filteredProteges.map((p) => (
               <Card key={p.id}>
                 <CardContent className="p-4">
@@ -210,6 +252,13 @@ export function MentorProtegeClient({
         </TabsContent>
 
         <TabsContent value="active">
+          {pairs.length === 0 && (
+            <EmptyState
+              icon={Handshake}
+              title="No active pairs yet"
+              description="Once an ASMP or DoD mentor-protégé agreement is signed, it will appear here with focus areas and outcomes."
+            />
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {pairs.map((pair) => (
               <Card key={pair.id}>

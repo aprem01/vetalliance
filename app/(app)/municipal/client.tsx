@@ -3,7 +3,9 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency, cn } from "@/lib/utils";
-import { ExternalLink, X, Landmark } from "lucide-react";
+import { ExternalLink, X, Landmark, SearchX } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/empty-state";
 import type { Municipality } from "@/lib/types";
 
 export function MunicipalClient({
@@ -81,6 +83,18 @@ export function MunicipalClient({
         </label>
       </div>
 
+      {filtered.length === 0 && (
+        <EmptyState
+          icon={SearchX}
+          title="No cities match"
+          description="The veteran-preference toggle is excluding every tracked metro. Turn it off to see the full list."
+          action={
+            <Button variant="outline" size="sm" onClick={() => setPrefOnly(false)}>
+              Show all cities
+            </Button>
+          }
+        />
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {filtered.map((c) => (
           <button
