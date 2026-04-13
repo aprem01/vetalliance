@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Target, Building2, Users, Handshake, KanbanSquare, Send,
   ShieldCheck, FileText, BarChart3, Map, GraduationCap, MessageSquare, Menu, X,
-  TrendingUp,
+  TrendingUp, UserCheck, Landmark,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -32,6 +32,12 @@ const NAV: { section: string; items: { href: string; label: string; icon: React.
     ],
   },
   {
+    section: "Mentor-Protégé",
+    items: [
+      { href: "/mentor-protege", label: "Mentor-Protégé", icon: UserCheck },
+    ],
+  },
+  {
     section: "Compliance",
     items: [
       { href: "/compliance/far-check", label: "FAR Check", icon: ShieldCheck },
@@ -43,6 +49,7 @@ const NAV: { section: string; items: { href: string; label: string; icon: React.
     items: [
       { href: "/analytics", label: "Analytics", icon: BarChart3 },
       { href: "/state-markets", label: "State Markets", icon: Map },
+      { href: "/municipal", label: "Municipal", icon: Landmark },
       { href: "/education", label: "Education", icon: GraduationCap },
       { href: "/advisor", label: "AI Advisor", icon: MessageSquare },
     ],

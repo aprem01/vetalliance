@@ -84,3 +84,6 @@ Authed (under `(app)` group):
 - UEI / CAGE codes in seed data are **fake**, generated for visual realism only.
 - The AI Advisor bottom dock is persistent across all `(app)` routes.
 - Deadlines across seed data live 5–210 days out from 2026-04-12.
+- **SAM.gov Entity Verification** (`lib/external/sam-entity.ts` + `/api/sam/verify-entity`) — on-demand UEI/CAGE lookup surfaces SDVOSB/VOSB/8(a)/HUBZone/WOSB certification badges from SAM.gov; falls back to "Verification unavailable" if no key.
+- **Mentor-Protégé** (`/mentor-protege`) — 25 available mentors, 30 protégés seeking, 15 seeded active pairs; deterministic match score + Claude rationale via `/api/ai/match-mentor`.
+- **Municipal layer** (`/municipal`) — 15 top U.S. metros with procurement spend, documented veteran-preference flags, sample RFPs, and portal links.

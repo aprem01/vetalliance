@@ -53,6 +53,103 @@ export interface Company {
   state: string;
   capabilities: string[];
   bio: string;
+  verifiedAt?: string; // ISO date of last SAM.gov verification
+}
+
+// ---------------- SAM.gov Entity Verification ----------------
+export interface VerifiedEntityPOC {
+  firstName?: string;
+  lastName?: string;
+  title?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface VerifiedEntity {
+  uei: string;
+  cage?: string;
+  legalBusinessName: string;
+  physicalAddress?: {
+    line1?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    country?: string;
+  };
+  registrationStatus: string;
+  registrationExpirationDate?: string;
+  naicsCodes: string[];
+  primaryNaics?: string;
+  businessTypeCodes: string[];
+  isSDVOSB: boolean;
+  isVOSB: boolean;
+  isEightA: boolean;
+  isHUBZone: boolean;
+  isWOSB: boolean;
+  poc?: VerifiedEntityPOC;
+  source: "sam.gov" | "seed";
+  fetchedAt: string;
+}
+
+// ---------------- Mentor-Protégé ----------------
+export interface MentorProfile {
+  id: string;
+  name: string;
+  primaryNAICS: string;
+  yearsOfFederalExperience: number;
+  specialties: string[];
+  capacityLevel: "open" | "limited" | "full";
+  programsOffered: Array<"ASMP" | "8(a) MP" | "DoD MP">;
+  geography: string;
+}
+
+export interface ProtegeProfile {
+  id: string;
+  name: string;
+  certifications: string[];
+  currentRevenue: string;
+  targetAgencies: string[];
+  goals: string[];
+  readinessScore: number; // 0-100
+  primaryNAICS?: string;
+}
+
+export interface MentorProtegePair {
+  id: string;
+  mentorName: string;
+  mentorUEI: string;
+  mentorCapabilities: string[]; // NAICS list
+  mentorIndustry: string;
+  protegeName: string;
+  protegeUEI: string;
+  protegeStage: "New" | "Established";
+  agreementDate: string;
+  programEndDate: string;
+  jointVentureName?: string;
+  focusAreas: string[];
+  outcomes?: string;
+}
+
+// ---------------- Municipal ----------------
+export interface MunicipalOpportunitySample {
+  title: string;
+  value: number;
+}
+
+export interface Municipality {
+  id: string;
+  name: string;
+  state: string;
+  population: number;
+  annualProcurementSpend: number; // in USD
+  hasVeteranPreference: boolean;
+  preferenceDetail?: string; // e.g. "5% bid preference" or "10 eval points"
+  administeringOffice: string;
+  certificationLink?: string;
+  procurementPortal: string;
+  opportunitySamples: MunicipalOpportunitySample[];
+  topSpendCategories: string[]; // NAICS codes
+  notes?: string;
 }
 
 export interface Prime {
