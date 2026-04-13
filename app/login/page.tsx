@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,26 +13,34 @@ export default function LoginPage() {
   const [email, setEmail] = useState("demo@vetalliance.io");
   const [password, setPassword] = useState("demo1234");
   const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!createClient()) {
+      router.replace("/dashboard");
+      return;
+    }
+    setReady(true);
+  }, [router]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     const supabase = createClient();
-    if (!supabase) {
-      router.push("/dashboard");
-      return;
-    }
+    if (!supabase) return;
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) setError(error.message);
     else router.push("/dashboard");
   }
+
+  if (!ready) return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6 bg-navy-900">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign in to VetAlliance</CardTitle>
-          <CardDescription>Demo mode: any credentials work when Supabase is unset.</CardDescription>
+          <CardDescription>Enter your credentials to continue.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">

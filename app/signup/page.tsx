@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,19 +13,27 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!createClient()) {
+      router.replace("/onboarding");
+      return;
+    }
+    setReady(true);
+  }, [router]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     const supabase = createClient();
-    if (!supabase) {
-      router.push("/onboarding");
-      return;
-    }
+    if (!supabase) return;
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) setError(error.message);
     else router.push("/onboarding");
   }
+
+  if (!ready) return null;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6 bg-navy-900">
